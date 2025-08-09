@@ -11,6 +11,7 @@ def run_openwakeword(device: int, model_path: str, sr: int, block: int, threshol
     from openwakeword.model import Model
 
     print(f"[oww] device={device} sr={sr} block={block} model={model_path} threshold={threshold}")
+    openwakeword.utils.download_models()   
     model = Model(wakeword_model_paths=[model_path]) if model_path else Model()  # loads bundled models if None
     with sd.InputStream(channels=1, samplerate=sr, dtype="float32",
                         blocksize=block, device=device) as stream:

@@ -1,7 +1,7 @@
 # Core
 sounddevice
 soundfile
-numpy
+numpy<2
 scipy
 rich
 pyyaml
