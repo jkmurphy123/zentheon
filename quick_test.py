@@ -5,6 +5,9 @@ import os
 import sys
 import time
 
+from openwakeword.model import Model
+import openwakeword
+
 def run_openwakeword(device: int, model_path: str, sr: int, block: int, threshold: float):
     import numpy as np
     import sounddevice as sd
