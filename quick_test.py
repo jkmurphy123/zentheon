@@ -63,18 +63,19 @@ def run_openwakeword(
         print("Listening (OpenWakeWord)...")
         while True:
             audio, _ = stream.read(block)
-            scores = model.predict(audio.flatten())  # dict: name -> prob
+            x = audio.flatten()
+            rms = (x**2).mean() ** 0.5
 
-            # Optional live probability readout for the chosen target
-            if target:
-                p = scores.get(target, 0.0)
-                print(f"p({target})={p:.2f}   ", end="\r")
+            scores = model.predict(x)  # dict: name -> prob
+            top3 = sorted(scores.items(), key=lambda kv: kv[1], reverse=True)[:3]
+            # live meter: rms and the target model prob
+            tgt_p = scores.get(target, 0.0) if target else 0.0
+            print(f"rms={rms:.3f}  {('p('+target+')=%.3f' % tgt_p) if target else ''}   top3={[(n, round(p,3)) for n,p in top3]}", end="\r")
 
-            name, prob = max(scores.items(), key=lambda kv: kv[1])
+            name, prob = top3[0]
             if prob >= threshold:
-                # Clear the debugging line if we were printing live probabilities
-                print()
-                print(f"Detected: {name} (p={prob:.2f})")
+                print()  # newline after the \r prints
+                print(f"Detected: {name} (p={prob:.3f})")
                 break
 
 
