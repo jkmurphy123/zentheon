@@ -62,14 +62,30 @@ class PorcupineWakeDetector:
 
 class OpenWakeWordDetector:
     def __init__(self, model_path: str):
-        try:
-            from openwakeword.model import Model
-        except Exception as e:
-            raise RuntimeError("openwakeword not installed: pip install openwakeword onnxruntime") from e
+        import numpy as np, sounddevice as sd
+        from openwakeword.model import Model
+        from utils import resolve_device
+        self.sd = sd
+        self.np = np
         self.model = Model(wakeword_model_paths=[model_path])
-        # Skeleton: leaving actual streaming audio hookup as a TODO.
+        from utils import load_config
+        cfg = load_config()
+        self.sr = int(cfg["audio"]["sample_rate"]) or 16000
+        self.dev_idx = resolve_device(cfg["audio"]["input_device"])
+        self.block = 512  # ~32ms at 16kHz
+        self.threshold = 0.5
+
     def listen(self) -> WakeResult:
-        raise NotImplementedError("OpenWakeWord streaming hookup is TODO in skeleton")
+        print("[green]Listening for OpenWakeWord...[/green]")
+        with self.sd.InputStream(channels=1, samplerate=self.sr, dtype="float32",
+                                 blocksize=self.block, device=self.dev_idx) as stream:
+            while True:
+                audio, _ = stream.read(self.block)
+                scores = self.model.predict(audio.flatten())
+                # scores is a dict: {model_name: prob}
+                if any(p >= self.threshold for p in scores.values()):
+                    name = max(scores, key=scores.get)
+                    return WakeResult(keyword=name)
 
 
 def make_wake_detector():
