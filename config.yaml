@@ -5,12 +5,16 @@ audio:
   chunk_ms: 30
 
 wake:
-  backend: "keyboard"     # "keyboard" | "porcupine" | "openwakeword"
+  backend: "porcupine"     # "keyboard" | "porcupine" | "openwakeword"
   porcupine:
-    keyword: "jarvis"     # built-in keywords require AccessKey
+    # Use EITHER 'keyword' for built-ins OR 'ppn_path' for your custom .ppn
+    #keyword: "jarvis"     # built-in keywords require AccessKey
+    ppn_path: models/porcupine/Ophelia.ppn         # e.g., "models/porcupine/Ophelia.ppn"
+    sensitivity: 0.6       # 0.0..1.0 (higher = more sensitive)
     access_key_env: "PORCUPINE_ACCESS_KEY"
   openwakeword:
     model_path: "models/openwakeword/hey_jarvis.tflite"  # placeholder
+
 
 asr:
   backend: "faster_whisper"   # or "sherpa"
