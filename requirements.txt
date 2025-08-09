@@ -21,4 +21,4 @@ sherpa-onnx
 llama-cpp-python
 
 # TTS (wrapper; you still need a Piper voice model)
-piper-python
+#piper-python
