@@ -1,0 +1,32 @@
+audio:
+  input_device: null      # index or name substring; use scripts/list_devices.py
+  output_device: null     # index or name substring
+  sample_rate: 16000
+  chunk_ms: 30
+
+wake:
+  backend: "keyboard"     # "keyboard" | "porcupine" | "openwakeword"
+  porcupine:
+    keyword: "jarvis"     # built-in keywords require AccessKey
+    access_key_env: "PORCUPINE_ACCESS_KEY"
+  openwakeword:
+    model_path: "models/openwakeword/hey_jarvis.tflite"  # placeholder
+
+asr:
+  backend: "faster_whisper"   # or "sherpa"
+  faster_whisper:
+    model_id: "Systran/faster-whisper-tiny.en"  # light model to start
+    compute_type: "int8"                         # Jetson-friendly
+  sherpa:
+    model_dir: "models/sherpa_whisper_tiny_en"   # placeholder
+
+llm:
+  model_path: "models/qwen2-0.5b/qwen2-0.5b-instruct-q8_0.gguf"  # small GGUF
+  n_ctx: 2048
+  n_gpu_layers: -1
+
+tts:
+  backend: "piper"  # only piper in this skeleton
+  piper:
+    voice_path: "models/piper/en_US-lessac-high.onnx"  # example voice
+    output_wav: "out.wav"

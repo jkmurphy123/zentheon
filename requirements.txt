@@ -1,0 +1,24 @@
+# Core
+sounddevice
+soundfile
+numpy
+scipy
+rich
+pyyaml
+webrtcvad
+
+# Wake word (pick one; Porcupine needs an AccessKey)
+pvporcupine
+pvrecorder
+openwakeword
+onnxruntime
+
+# ASR options (pick one at runtime)
+faster-whisper
+sherpa-onnx
+
+# LLM
+llama-cpp-python
+
+# TTS (wrapper; you still need a Piper voice model)
+piper-python
