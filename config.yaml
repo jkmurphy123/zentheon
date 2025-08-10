@@ -1,7 +1,7 @@
 audio:
   input_device: 0      # index or name substring; use scripts/list_devices.py
   output_device: 0     # index or name substring
-  sample_rate: 16000
+  sample_rate: 48000
   chunk_ms: 30
 
 wake:
