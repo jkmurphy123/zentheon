@@ -1,6 +1,6 @@
 audio:
-  input_device: Logi USB Headset      # index or name substring; use scripts/list_devices.py
-  output_device: Logi USB Headset     # index or name substring
+  input_device: 24      # index or name substring; use scripts/list_devices.py
+  output_device: 24     # index or name substring
   sample_rate: 16000
   chunk_ms: 30
 
